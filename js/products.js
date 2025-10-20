@@ -10,11 +10,11 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "8-12 hours",
-                image:"images/Badeel-Al-Oud.jpg",
+                image:"images/Badeel Al Oud.jpg",
                 images: [
-            "images/Badeel-Al-Oud.jpg",
-            "images/Badeel-Al-Oud1.JPG",
-            "images/Badeel-Al-Oud1.JPG",
+            "images/Badeel Al Oud.jpg",
+            "images/Badeel Al Oud1.JPG",
+            "images/Badeel Al Oud1.JPG",
         ],
                 featured: true
             },
@@ -476,3 +476,4 @@ function updateShopProductsGrid(filteredProducts) {
     });
 
 }
+
