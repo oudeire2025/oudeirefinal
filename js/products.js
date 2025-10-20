@@ -1,6 +1,6 @@
 // Sample product data with actual image URLs
 const products = [
-    {
+   {
                 id: 1,
                 name: "Badeel-Al-Oud",
                 description: "A luxurious blend of oud with deep, complex scent profile.",
@@ -10,11 +10,11 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "8-12 hours",
-                image: "images/b.jpg",
-                    images: [
-            "images/products/badeel-al-oud/image-1.jpg",
-            "images/products/badeel-al-oud/image-2.jpg",
-            "images/products/badeel-al-oud/image-3.jpg"
+                image:"images/Badeel-Al-Oud.jpg",
+                images: [
+            "images/Badeel-Al-Oud.jpg",
+            "images/Badeel-Al-Oud1.JPG",
+            "images/Badeel-Al-Oud1.JPG",
         ],
                 featured: true
             },
@@ -28,8 +28,14 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "6-8 hours",
-                image: "images/Oud Orchid.jpg",
+                image:"images/Oud Orchid.jpg",
+                images: [
+                 "images/Oud Orchid.jpg",
+                 "images/Oud Orchid.jpg",
+                  "images/Oud Orchid.jpg",
+                ],
                 featured: true
+                
             },
 
             {
@@ -42,7 +48,11 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "6-8 hours",
-                image: "images/Ramz Silver.jpg",
+                image: [
+                "images/Ramz Silver.jpg",
+                "images/Ramz Silver.jpg",
+                "images/Ramz Silver.jpg",
+                ],
                 featured: false
             },
             
@@ -56,7 +66,11 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "6-8 hours",
-                image: "images/Yara.jpg",
+                image:[
+                 "images/Yara.jpg",
+                 "images/Yara.jpg",
+                 "images/Yara.jpg",
+                ],
                 featured: false
             },
         
@@ -70,7 +84,12 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "8-10 hours",
-                image: "images/Oud Najdia.jpg",
+                image: [
+                "images/Oud Najdia.jpg",
+                "images/Oud Najdia.jpg",
+                "images/Oud Najdia.jpg",
+                ],
+
                 featured: false
             },
             {
@@ -83,7 +102,11 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "6-8 hours",
-                image: "images/Yara Pink.jpg",
+                image: [
+                 "images/Yara Pink.jpg",
+                 "images/Yara Pink.jpg",
+                 "images/Yara Pink.jpg",
+                 ],
                 featured: false
             },
             {
@@ -451,4 +474,5 @@ function updateShopProductsGrid(filteredProducts) {
         const productCard = createProductCard(product);
         shopProductsGrid.appendChild(productCard);
     });
+
 }
