@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Create Your Account</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #470d08 0%, #270704 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 480px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .form-container {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, #270704, #270704);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            color: #2c3e50;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .logo p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        
+        .home-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .home-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        
+        .firebase-status {
+            background: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .firebase-status.connected {
+            background: #e8f5e9;
+            border-color: #c8e6c9;
+        }
+        
+        .firebase-status.disconnected {
+            background: #ffebee;
+            border-color: #ffcdd2;
+        }
+        
+        .firebase-status i {
+            font-size: 18px;
+        }
+        
+        .firebase-status.connected i {
+            color: #4caf50;
+        }
+        
+        .firebase-status.disconnected i {
+            color: #f44336;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 22px;
+            flex: 1;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 15px 18px;
+            border: 2px solid #e8f0fe;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: #f8fafc;
+        }
+        
+        .input-field:focus {
+            border-color: #4d90fe;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(77, 144, 254, 0.15);
+            outline: none;
+        }
+        
+        .input-field.error {
+            border-color: #e74c3c;
+        }
+        
+        .input-field.success {
+            border-color: #2ecc71;
+        }
+        
+        .password-container {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(to right, #270704, #270704);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(106, 17, 203, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        .signin-link {
+            color: #7f8c8d;
+            font-size: 15px;
+        }
+        
+        .signin-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        
+        .signin-link a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        
+        .forgot-password {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .forgot-password:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 6px;
+            display: none;
+        }
+        
+        .success-message {
+            color: #2ecc71;
+            font-size: 13px;
+            margin-top: 6px;
+            display: none;
+        }
+        
+        .password-strength {
+            height: 6px;
+            margin-top: 10px;
+            border-radius: 3px;
+            background-color: #ecf0f1;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s, background-color 0.4s;
+            border-radius: 3px;
+        }
+        
+        .password-requirements {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #7f8c8d;
+        }
+        
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        
+        .requirement i {
+            margin-right: 6px;
+            font-size: 12px;
+        }
+        
+        .requirement.met {
+            color: #2ecc71;
+        }
+        
+        .requirement.unmet {
+            color: #95a5a6;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .shake {
+            animation: shake 0.4s ease-in-out;
+        }
+        
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 30px 25px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .form-footer {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .logo h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="logo">
+                <h1>OUD EIRE</h1>
+                <h2>Create Account</h2>
+                <p>Join our community today</p>
+                <a href="index.html" class="home-link">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
+            
+            <!-- Firebase Connection Status -->
+            <div class="firebase-status disconnected" id="firebaseStatus">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Firebase: Not Connected</span>
+            </div>
+            
+            <form id="signup-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" class="input-field" placeholder="Enter your first name" required>
+                        <div class="error-message" id="firstNameError">Please enter your first name</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="surname">Surname</label>
+                        <input type="text" id="surname" class="input-field" placeholder="Enter your surname" required>
+                        <div class="error-message" id="surnameError">Please enter your surname</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="input-field" placeholder="Enter your email" required>
+                    <div class="error-message" id="emailError">Please enter a valid email address</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="password" class="input-field" placeholder="Create a password" required>
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                    </div>
+                    <div class="password-requirements">
+                        <div class="requirement unmet" id="reqLength">
+                            <i class="fas fa-circle"></i> At least 8 characters
+                        </div>
+                        <div class="requirement unmet" id="reqUpper">
+                            <i class="fas fa-circle"></i> One uppercase letter
+                        </div>
+                        <div class="requirement unmet" id="reqLower">
+                            <i class="fas fa-circle"></i> One lowercase letter
+                        </div>
+                        <div class="requirement unmet" id="reqNumber">
+                            <i class="fas fa-circle"></i> One number
+                        </div>
+                    </div>
+                    <div class="error-message" id="passwordError">Password does not meet requirements</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="password-container">
+                        <input type="password" id="confirmPassword" class="input-field" placeholder="Re-enter your password" required>
+                        <button type="button" class="toggle-password" id="toggleConfirmPassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+                    <div class="success-message" id="confirmPasswordSuccess">Passwords match!</div>
+                </div>
+                
+                <button type="submit" class="btn">
+                    <i class="fas fa-user-plus"></i> SIGN UP
+                </button>
+                
+                <div class="form-footer">
+                    <div class="signin-link">
+                       Already have an Account? <a href="signin.html">Sign In</a>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCFokOnt-RxuItaipM8dmxoIbyJa-OoS18",
+            authDomain: "form-79977.firebaseapp.com",
+            projectId: "form-79977",
+            storageBucket: "form-79977.firebasestorage.app",
+            messagingSenderId: "1029664760783",
+            appId: "1:1029664760783:web:a31f07d9e4b92feb4ce8ba"
+        };
+
+        // Initialize Firebase
+       let auth; // Declare auth globally
+
+    try {
+        firebase.initializeApp(firebaseConfig);
+        auth = firebase.auth(); // Assign to global variable
+        
+        // Update Firebase status
+        document.getElementById('firebaseStatus').className = 'firebase-status connected';
+        document.getElementById('firebaseStatus').innerHTML = '<i class="fas fa-check-circle"></i><span>Firebase: Connected Successfully</span>';
+        
+        console.log("Firebase initialized successfully");
+    } catch (error) {
+        console.error("Firebase initialization error:", error);
+        document.getElementById('firebaseStatus').className = 'firebase-status disconnected';
+        document.getElementById('firebaseStatus').innerHTML = '<i class="fas fa-exclamation-circle"></i><span>Firebase: Connection Failed</span>';
+    }
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordField = document.getElementById('password');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+            const passwordField = document.getElementById('confirmPassword');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+
+        // Password strength indicator and validation
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.getElementById('passwordStrengthBar');
+            
+            // Check requirements
+            const hasMinLength = password.length >= 8;
+            const hasUpperCase = /[A-Z]/.test(password);
+            const hasLowerCase = /[a-z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            
+            // Update requirement indicators
+            updateRequirement('reqLength', hasMinLength);
+            updateRequirement('reqUpper', hasUpperCase);
+            updateRequirement('reqLower', hasLowerCase);
+            updateRequirement('reqNumber', hasNumber);
+            
+            // Calculate strength
+            let strength = 0;
+            if (hasMinLength) strength += 25;
+            if (hasUpperCase) strength += 25;
+            if (hasLowerCase) strength += 25;
+            if (hasNumber) strength += 25;
+            
+            strengthBar.style.width = strength + '%';
+            
+            // Update strength bar color
+            if (strength < 50) {
+                strengthBar.style.backgroundColor = '#e74c3c';
+            } else if (strength < 75) {
+                strengthBar.style.backgroundColor = '#f39c12';
+            } else {
+                strengthBar.style.backgroundColor = '#2ecc71';
+            }
+            
+            // Check if passwords match
+            checkPasswordMatch();
+        });
+        
+        function updateRequirement(elementId, isMet) {
+            const element = document.getElementById(elementId);
+            if (isMet) {
+                element.classList.remove('unmet');
+                element.classList.add('met');
+                element.innerHTML = '<i class="fas fa-check-circle"></i> ' + element.textContent.substring(13);
+            } else {
+                element.classList.remove('met');
+                element.classList.add('unmet');
+                element.innerHTML = '<i class="fas fa-circle"></i> ' + element.textContent.substring(13);
+            }
+        }
+        
+        // Check if passwords match
+        document.getElementById('confirmPassword').addEventListener('input', checkPasswordMatch);
+        
+        function checkPasswordMatch() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorElement = document.getElementById('confirmPasswordError');
+            const successElement = document.getElementById('confirmPasswordSuccess');
+            const confirmField = document.getElementById('confirmPassword');
+            
+            if (confirmPassword === '') {
+                errorElement.style.display = 'none';
+                successElement.style.display = 'none';
+                confirmField.classList.remove('error', 'success');
+                return;
+            }
+            
+            if (password === confirmPassword) {
+                errorElement.style.display = 'none';
+                successElement.style.display = 'block';
+                confirmField.classList.remove('error');
+                confirmField.classList.add('success');
+            } else {
+                errorElement.style.display = 'block';
+                successElement.style.display = 'none';
+                confirmField.classList.remove('success');
+                confirmField.classList.add('error');
+            }
+        }
+        
+        // Form validation and Firebase submission
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const surname = document.getElementById('surname').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            let isValid = true;
+            
+            // Reset error messages and styles
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('.input-field').forEach(el => {
+                el.classList.remove('error', 'shake');
+            });
+            
+            // First name validation
+            if (!firstName.trim()) {
+                document.getElementById('firstNameError').style.display = 'block';
+                document.getElementById('firstName').classList.add('error', 'shake');
+                isValid = false;
+            }
+            
+            // Surname validation
+            if (!surname.trim()) {
+                document.getElementById('surnameError').style.display = 'block';
+                document.getElementById('surname').classList.add('error', 'shake');
+                isValid = false;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                document.getElementById('email').classList.add('error', 'shake');
+                isValid = false;
+            }
+            
+            // Password validation
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            if (!passwordRegex.test(password)) {
+                document.getElementById('passwordError').style.display = 'block';
+                document.getElementById('password').classList.add('error', 'shake');
+                isValid = false;
+            }
+            
+            // Confirm password validation
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').style.display = 'block';
+                document.getElementById('confirmPassword').classList.add('error', 'shake');
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // Show loading state
+                const submitBtn = document.querySelector('.btn');
+                submitBtn.innerHTML = '<div class="loading"></div> Creating Account...';
+                submitBtn.disabled = true;
+
+                // Create user with Firebase
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        // SUCCESS - Real Firebase account created
+                        const user = userCredential.user;
+                        
+                        // Update user profile with name
+                        return user.updateProfile({
+                            displayName: firstName + " " + surname
+                        });
+                    })
+                    .then(() => {
+                        alert('Account created successfully! Welcome to our community.');
+                        document.getElementById('signup-form').reset();
+                        document.getElementById('passwordStrengthBar').style.width = '0%';
+                        
+                        // Reset requirement indicators
+                        document.querySelectorAll('.requirement').forEach(el => {
+                            el.classList.remove('met');
+                            el.classList.add('unmet');
+                            const text = el.textContent;
+                            el.innerHTML = '<i class="fas fa-circle"></i> ' + text.substring(13);
+                        });
+                        
+                        // Redirect to main page after successful signup
+                        window.location.href = 'index.html';
+                    })
+                    .catch((error) => {
+                        // Handle specific errors
+                        let errorMessage = "Sign-up failed. Please try again.";
+                        
+                        if (error.code === 'auth/email-already-in-use') {
+                            errorMessage = "This email is already registered.";
+                        } else if (error.code === 'auth/weak-password') {
+                            errorMessage = "Password should be at least 6 characters.";
+                        } else if (error.code === 'auth/invalid-email') {
+                            errorMessage = "Please enter a valid email address.";
+                        } else if (error.code === 'auth/network-request-failed') {
+                            errorMessage = "Network error. Please check your connection.";
+                        }
+                        
+                        alert(errorMessage);
+                    })
+                    .finally(() => {
+                        // Reset button state
+                        submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> SIGN UP';
+                        submitBtn.disabled = false;
+                    });
+            }
+        });
+
+        // Forgot password functionality
+        document.querySelector('.forgot-password').addEventListener('click', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            
+            if (email) {
+                auth.sendPasswordResetEmail(email)
+                    .then(() => {
+                        alert(`Password reset instructions sent to: ${email}`);
+                    })
+                    .catch((error) => {
+                        alert('Error sending reset email. Please check your email address.');
+                    });
+            } else {
+                alert('Please enter your email address first');
+                document.getElementById('email').focus();
+            }
+        });
+        
+        // Remove shake animation after it completes
+        document.querySelectorAll('.input-field').forEach(field => {
+            field.addEventListener('animationend', function() {
+                this.classList.remove('shake');
+            });
+        });
+    </script>
+</body>
+</html>
