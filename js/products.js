@@ -1,6 +1,6 @@
 // Sample product data with actual image URLs
 const products = [
-   {
+    {
                 id: 1,
                 name: "Badeel-Al-Oud",
                 description: "A luxurious blend of oud with deep, complex scent profile.",
@@ -10,11 +10,11 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "8-12 hours",
-                image:"images/Badeel Al Oud.jpg",
+                image:"images/Badeel-Al-Oud.jpg",
                 images: [
-            "images/Badeel Al Oud.jpg",
-            "images/Badeel Al Oud1.JPG",
-            "images/Badeel Al Oud1.JPG",
+            "images/Badeel-Al-Oud.jpg",
+            "images/Badeel-Al-Oud1.JPG",
+            "images/Badeel-Al-Oud1.JPG",
         ],
                 featured: true
             },
@@ -48,16 +48,18 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "6-8 hours",
-                image: [
-                "images/Ramz Silver.jpg",
-                "images/Ramz Silver.jpg",
-                "images/Ramz Silver.jpg",
+                image:"images/RamzSilver.jpg",
+                images: [
+                "images/RamzSilver.jpg",
+                "images/RamzSilver.jpg",
+                "images/RamzSilver.jpg",
+                
                 ],
                 featured: false
             },
             
             {
-                id: 5,
+                id: 4,
                 name: "Yara",
                 description: "Feminine oud with sweet, fruity notes.",
                 price: 30.00,
@@ -66,7 +68,8 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "6-8 hours",
-                image:[
+                image:"images/Yara.jpg",
+                images:[
                  "images/Yara.jpg",
                  "images/Yara.jpg",
                  "images/Yara.jpg",
@@ -75,7 +78,7 @@ const products = [
             },
         
             {
-                id: 6,
+                id: 5,
                 name: "Oud Najdia",
                 description: "Traditional oud with authentic Middle Eastern character.",
                 price: 25.00,
@@ -84,7 +87,8 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "8-10 hours",
-                image: [
+                image: "images/Oud Najdia.jpg",
+                images: [
                 "images/Oud Najdia.jpg",
                 "images/Oud Najdia.jpg",
                 "images/Oud Najdia.jpg",
@@ -93,7 +97,7 @@ const products = [
                 featured: false
             },
             {
-                id: 7,
+                id: 6,
                 name: "Yara Pink",
                 description: "Playful pink version of the popular Yara fragrance.",
                 price: 30.00,
@@ -102,7 +106,8 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "6-8 hours",
-                image: [
+                image:"images/Yara Pink.jpg",
+                images: [
                  "images/Yara Pink.jpg",
                  "images/Yara Pink.jpg",
                  "images/Yara Pink.jpg",
@@ -110,7 +115,7 @@ const products = [
                 featured: false
             },
             {
-                id: 8,
+                id: 7,
                 name: "Omnery Brandy",
                 description: "Oud with rich brandy and boozy notes.",
                 price: 28.00,
@@ -119,12 +124,12 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "8-10 hours",
-                image: "images/Omnery Brand.jpg",
+                image: "images/New folder/IMG-20250921-WA0008.jpg",
                 featured: false
             },
            
             {
-                id: 9,
+                id: 8,
                 name: "Cherry Gold",
                 description: "Oud with sweet cherry and golden amber notes.",
                 price: 25.00,
@@ -137,7 +142,7 @@ const products = [
                 featured: false
             },
             {
-                id: 10,
+                id: 9,
                 name: "Eclaire",
                 description: "Bright and luminous oud with sparkling notes.",
                 price: 40.00,
@@ -150,7 +155,7 @@ const products = [
                 featured: true
             },
             {
-                id: 11,
+                id: 10,
                 name: "Yara Moi Eau de Parfum",
                 description: "Special edition Yara with enhanced longevity.",
                 price: 30.00,
@@ -163,7 +168,7 @@ const products = [
                 featured: false
             },
             {
-                id: 12,
+                id: 11,
                 name: "Asad Zanzibar",
                 description: "Exotic Asad edition with Zanzibar spices.",
                 price: 30.00,
@@ -176,7 +181,7 @@ const products = [
                 featured: false
             },
             {
-                id: 13,
+                id: 12,
                 name: "Yara Candy",
                 description: "Sweet and playful Yara with candy-like notes.",
                 price: 30.00,
@@ -194,7 +199,7 @@ const products = [
                 featured: false
             },
             {
-                id: 14,
+                id: 13,
                 name: "Bint Hooran",
                 description: "Elegant feminine oud with delicate floral notes.",
                 price: 25.00,
@@ -474,6 +479,4 @@ function updateShopProductsGrid(filteredProducts) {
         const productCard = createProductCard(product);
         shopProductsGrid.appendChild(productCard);
     });
-
 }
-
