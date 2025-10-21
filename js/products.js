@@ -190,7 +190,7 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "6-8 hours",
-                image: "images/Yara Candy.jpg",
+                image: "images/Yara candy.jpg",
                 images: [
             "images/Yara candy1.jpg",
             "images/Yara candy2.jpg",
@@ -480,4 +480,5 @@ function updateShopProductsGrid(filteredProducts) {
         shopProductsGrid.appendChild(productCard);
     });
 }
+
 
