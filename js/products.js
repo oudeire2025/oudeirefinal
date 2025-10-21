@@ -124,7 +124,7 @@ const products = [
                 concentration: "Eau de Parfum",
                 size: "100ml",
                 longevity: "8-10 hours",
-                image: "images/New folder/IMG-20250921-WA0008.jpg",
+                image: "images/Omnery Brandy.jpg",
                 featured: false
             },
            
@@ -480,3 +480,4 @@ function updateShopProductsGrid(filteredProducts) {
         shopProductsGrid.appendChild(productCard);
     });
 }
+
